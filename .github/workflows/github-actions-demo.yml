@@ -41,7 +41,7 @@ jobs:
         run: npm run build
 
   deploy:
-    needs: [pre-build, build]
+    needs: build
       runs-on: ubuntu-latest
       strategy:
         matrix:
