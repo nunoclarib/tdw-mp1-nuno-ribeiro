@@ -2,9 +2,9 @@ name: GitHub Actions
 
 on:
   push:
-    branches: [ main, newFeat ]
+    branches: [ main ]
   pull_request:
-    branches: [ main, newFeat ]
+    branches: [ main ]
 
 jobs:
   pre-build:
@@ -33,11 +33,17 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Lint
+        if: github.ref == 'refs/heads/master'
+        run: npm lint
+      - name: Prettier 
+        if: github.ref == 'refs/heads/master'
+        run: npm run format
+      - name: Test 
+        if: github.ref == 'refs/heads/master'
+        run: npm run test
       - name: Build 
         if: github.ref == 'refs/heads/master'
-        run: npm run lint
-        run: npm run format
-        run: npm run test
         run: npm run build
 
   deploy:
