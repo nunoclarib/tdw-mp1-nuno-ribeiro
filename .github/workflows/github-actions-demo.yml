@@ -33,15 +33,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Lint
-        if: github.ref == 'refs/heads/master'
-        run: npm lint
-      - name: Prettier 
-        if: github.ref == 'refs/heads/master'
-        run: npm run format
-      - name: Test 
-        if: github.ref == 'refs/heads/master'
-        run: npm run test
       - name: Build 
         if: github.ref == 'refs/heads/master'
         run: npm run build
