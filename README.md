@@ -1,5 +1,5 @@
-# tdw-mp1-nuno-ribeiro
-Mini Projeto 1, Tecnologias e Desenvolvimento Web, Nuno Ribeiro
+# Mini Projeto 1 | tdw-mp1-nuno-ribeiro
+Tecnologias e Desenvolvimento Web, Nuno Ribeiro
 
 Link repositório: https://github.com/nunoclarib/tdw-mp1-nuno-ribeiro
 
