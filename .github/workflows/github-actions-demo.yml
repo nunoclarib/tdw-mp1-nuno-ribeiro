@@ -1,9 +1,9 @@
 name: GitHub Actions
 
 on:
+  push:
   repository_dispatch:
     types: [publish-event]
-  push:
   pull_request:
   schedule:
       - cron: '0 0 * * *'
