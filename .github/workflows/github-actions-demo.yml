@@ -2,6 +2,8 @@ name: GitHub Actions
 
 on: [push, pull_request]
 
+jobs:
+
   build:
     runs-on: ubuntu-latest
     strategy:
@@ -13,11 +15,11 @@ on: [push, pull_request]
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
-      - name: Install dependencies
-        run: npm install
-      - name: Build 
+      - name: Install dependencies & Build 
         if: github.ref == 'refs/heads/master'
-        run: npx gatsby build
+        run: |
+        npm install
+        npx gatsby build
 
   deploy:
     needs: build
