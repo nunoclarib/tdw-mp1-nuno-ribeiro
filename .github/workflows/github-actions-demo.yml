@@ -10,16 +10,18 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
+      - uses: actions/checkout@v1
       - run: npm install
   
   build:
-    needs: pre-build
+    needs: build
     if: github.ref == 'refs/heads/master'
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [16.x]
     steps:
+      - uses: actions/checkout@v1
       - name: Install dependencies & Build
       - run:
           npx gatsby build
@@ -31,6 +33,7 @@ jobs:
       matrix:
         node-version: [16.x]
     steps:
+      - uses: actions/checkout@v1
       - name: Deploy
         if: github.ref == 'refs/heads/master'
         run: npx netlify-cli deploy --site ${{secrets.NETLIFY_AUTH_TOKEN}} --auth ${{secrets.NETLIFY_API_ID}} --prod
