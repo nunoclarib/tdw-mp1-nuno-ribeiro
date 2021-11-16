@@ -4,36 +4,45 @@ on: [push, pull_request]
 
 jobs:
 
-  pre-build:
-    runs-on: ubuntu-latest~
-    strategy:
-      matrix:
-        node-version: [16.x]
+  pre-bluid:
+    if: contains( github.ref, 'master')
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v1
       - run: npm install
-  
-  build:
-    needs: build
-    if: github.ref == 'refs/heads/master'
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
-    steps:
-      - uses: actions/checkout@v1
-      - name: Install dependencies & Build
-      - run:
-          npx gatsby build
 
-  deploy:
-    needs: build
+ bluid:
+    needs: pre-build
+    if: contains( github.ref, 'master')
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [16.x]
     steps:
-      - uses: actions/checkout@v1
-      - name: Deploy
-        if: github.ref == 'refs/heads/master'
-        run: npx netlify-cli deploy --site ${{secrets.NETLIFY_AUTH_TOKEN}} --auth ${{secrets.NETLIFY_API_ID}} --prod
+      - run: npx gatsby build
+
+
+  # build:
+  #   needs: pre-build
+  #   runs-on: ubuntu-latest~
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #   steps:
+  #     - run: npm install
+  
+  # build:
+  #   if: github.ref == 'refs/heads/master'
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #   steps:
+  #     - uses: actions/checkout@v1
+  #     - name: Install dependencies & Build
+  #     - run:
+  #         npx gatsby build
+
+  # deploy:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Deploy
+  #       if: github.ref == 'refs/heads/master'
+  #       run: npx netlify-cli deploy --site ${{secrets.NETLIFY_AUTH_TOKEN}} --auth ${{secrets.NETLIFY_API_ID}} --prod
