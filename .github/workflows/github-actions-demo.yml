@@ -2,10 +2,11 @@ name: GitHub Actions
 
 on: 
   workflow_dispatch:
+  repository_dispatch: [publish-event]
   push:
   pull_request:
   schedule:
-      - cron: '0 17 * * *'
+      - cron: '0 0 * * *'
 
 jobs:
   build_deploy:
