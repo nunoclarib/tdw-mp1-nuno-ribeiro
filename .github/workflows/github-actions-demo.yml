@@ -3,46 +3,64 @@ name: GitHub Actions
 on: [push, pull_request]
 
 jobs:
+build:
+  runs-on: ubunto-latest
 
-  pre-bluid:
-    if: contains( github.ref, 'master')
-    runs-on: ubuntu-latest
-    steps:
-      - run: npm install
+  strategy:
+    matrix:
+      node-version: [16.x]
 
- bluid:
-    needs: pre-build
-    if: contains( github.ref, 'master')
-    runs-on: ubuntu-latest
-    steps:
-      - run: npx gatsby build
+  steps:
+  - uses: actions/checkout@v2
+  - name: Use Node.js ${{ matrix.node-version }}
+    uses: actions/setup-node@v1
+    with:
+      node-version: ${{ matrix.node-version }}
+  - run: npm i
+  - run: npm run build --if-present
 
-
-  # build:
-  #   needs: pre-build
-  #   runs-on: ubuntu-latest~
-  #   strategy:
-  #     matrix:
-  #       node-version: [16.x]
-  #   steps:
-  #     - run: npm install
-  
-  # build:
-  #   if: github.ref == 'refs/heads/master'
+  # pre-build:
   #   runs-on: ubuntu-latest
   #   strategy:
   #     matrix:
   #       node-version: [16.x]
   #   steps:
-  #     - uses: actions/checkout@v1
-  #     - name: Install dependencies & Build
-  #     - run:
-  #         npx gatsby build
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Install dependencies
+  #       run: npm install
+
+  # build:
+  #   needs: pre-build
+  #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
+  #     - name: Build 
+  #       if: github.ref == 'refs/heads/master'
+  #       run: npx gatsby build
 
   # deploy:
   #   needs: build
   #   runs-on: ubuntu-latest
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
   #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Use Node.js ${{ matrix.node-version }}
+  #       uses: actions/setup-node@v2
+  #       with:
+  #         node-version: ${{ matrix.node-version }}
   #     - name: Deploy
   #       if: github.ref == 'refs/heads/master'
   #       run: npx netlify-cli deploy --site ${{secrets.NETLIFY_AUTH_TOKEN}} --auth ${{secrets.NETLIFY_API_ID}} --prod
