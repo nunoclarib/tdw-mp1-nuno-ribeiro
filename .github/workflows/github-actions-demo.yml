@@ -18,9 +18,9 @@ jobs:
       - uses: actions/checkout@v1
       - name: Install dependencies & Build
         if: github.ref == 'refs/heads/master'
-        run: |
+      - run: |
         npm install
-        run:
+      - run:
         npx gatsby build
 
   deploy:
