@@ -19,6 +19,7 @@ jobs:
     - run: npm i
 
   build:
+    if: contains( github.ref, 'master')
     needs: pre-build
     runs-on: ubuntu-latest
 
@@ -27,7 +28,6 @@ jobs:
         node-version: [16.x]
 
     steps:
-    if: github.ref == 'refs/heads/master'
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
@@ -39,6 +39,7 @@ jobs:
         CONTENTFUL_ACCESS_TOKEN: ${{secrets.CONTENTFUL_ACCESS_TOKEN}}
 
   deploy:
+    if: contains( github.ref, 'master')
     needs: build
     runs-on: ubuntu-latest
 
@@ -47,7 +48,6 @@ jobs:
         node-version: [16.x]
 
     steps:
-    if: github.ref == 'refs/heads/master'
     - uses: actions/checkout@v2
     - name: Use Node.js ${{ matrix.node-version }}
       uses: actions/setup-node@v1
