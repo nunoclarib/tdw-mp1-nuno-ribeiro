@@ -3,7 +3,7 @@ name: GitHub Actions
 on: [push, pull_request]
 
 jobs:
-  build:
+  build_deploy:
     runs-on: ubuntu-latest
 
     strategy:
@@ -21,26 +21,30 @@ jobs:
       env:
         CONTENTFUL_SPACE_ID: ${{secrets.CONTENTFUL_SPACE_ID}}
         CONTENTFUL_ACCESS_TOKEN: ${{secrets.CONTENTFUL_ACCESS_TOKEN}}
-
-  deploy:
-    if: contains( github.ref, 'master')
-    needs: build
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
     - run: npx netlify-cli deploy --site "$NETLIFY_API_ID" --auth "$NETLIFY_AUTH_TOKEN" --prod
       env:
         NETLIFY_API_ID: ${{secrets.NETLIFY_API_ID}}
         NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
+
+  # deploy:
+  #   if: contains( github.ref, 'master')
+  #   needs: build
+  #   runs-on: ubuntu-latest
+
+  #   strategy:
+  #     matrix:
+  #       node-version: [16.x]
+
+  #   steps:
+  #   - uses: actions/checkout@v2
+  #   - name: Use Node.js ${{ matrix.node-version }}
+  #     uses: actions/setup-node@v1
+  #     with:
+  #       node-version: ${{ matrix.node-version }}
+  #   - run: npx netlify-cli deploy --site "$NETLIFY_API_ID" --auth "$NETLIFY_AUTH_TOKEN" --prod
+  #     env:
+  #       NETLIFY_API_ID: ${{secrets.NETLIFY_API_ID}}
+  #       NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
 
   # pre-build:
   #   runs-on: ubuntu-latest
