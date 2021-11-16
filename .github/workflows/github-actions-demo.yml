@@ -37,9 +37,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npx netlify-cli deploy --site "$NETLIFY_API_ID" --auth "$NETLIFY_AUTH_TOKEN" --prod
-          env:
-            NETLIFY_API_ID: ${{secrets.NETLIFY_API_ID}}
-            NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
+      env:
+        NETLIFY_API_ID: ${{secrets.NETLIFY_API_ID}}
+        NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
 
   # deploy:
   #   if: contains( github.ref, 'master')
