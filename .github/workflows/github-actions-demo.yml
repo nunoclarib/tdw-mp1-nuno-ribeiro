@@ -1,7 +1,6 @@
 name: GitHub Actions
 
-on: 
-  workflow_dispatch:
+on:
   repository_dispatch: [publish-event]
   push:
   pull_request:
