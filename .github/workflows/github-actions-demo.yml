@@ -3,7 +3,7 @@ name: GitHub Actions
 on: [push, pull_request]
 
 jobs:
-  pre-build:
+  build:
     runs-on: ubuntu-latest
 
     strategy:
@@ -17,22 +17,6 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm i
-
-  build:
-    if: contains( github.ref, 'master')
-    needs: pre-build
-    runs-on: ubuntu-latest
-
-    strategy:
-      matrix:
-        node-version: [16.x]
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
     - run: npm run build --if-present
       env:
         CONTENTFUL_SPACE_ID: ${{secrets.CONTENTFUL_SPACE_ID}}
@@ -53,7 +37,7 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - run: npx gatsby build
+    - run: npx netlify-cli deploy --site ${{secrets.NETLIFY_AUTH_TOKEN}} --auth ${{secrets.NETLIFY_API_ID}} --prod
       env:
         NETLIFY_API_ID: ${{secrets.NETLIFY_API_ID}}
         NETLIFY_AUTH_TOKEN: ${{secrets.NETLIFY_AUTH_TOKEN}}
