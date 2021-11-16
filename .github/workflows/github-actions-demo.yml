@@ -1,8 +1,8 @@
 name: GitHub Actions
 
-on: 
-  workflow_dispatch:
-  repository_dispatch: [publish-event]
+on:
+  repository_dispatch:
+    types: [publish-event]
   push:
   pull_request:
   schedule:
